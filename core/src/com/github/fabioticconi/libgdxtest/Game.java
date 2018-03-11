@@ -33,19 +33,29 @@ public class Game extends ApplicationAdapter
         modelBatch = new ModelBatch();
 
         cam = new PerspectiveCamera(67, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        cam.position.set(10f, 10f, 10f);
+        cam.position.set(0, 200f, 200f);
         cam.lookAt(0, 0, 0);
         cam.near = 1f;
-        cam.far = 300f;
+        cam.far = 1000f;
         cam.update();
 
         Block.init(5f);
 
-        for (float x = -5f; x <= 5f; x += 5f)
+        final int minX = 0, maxX = 30;
+        final int minZ = 0, maxZ = 30;
+        final float centreX = (maxX - minX) / 2f;
+        final float centreZ = (maxZ - minZ) / 2f;
+
+        for (int x = minX; x < maxX; x++)
         {
-            for (float z = -5f; z <= 5f; z += 5f)
+            for (int z = minZ; z < maxZ; z++)
             {
-                instances.add(Block.PLANK.make(x, 0f, z));
+                final float y = centreX - Math.max(Math.abs(x - centreX), Math.abs(z - centreZ));
+
+                for (int yy = 0; yy < y; yy++)
+                {
+                    instances.add(Block.DIRT_GRASS.make(x*5f, yy*5f, z*5f));
+                }
             }
         }
 
